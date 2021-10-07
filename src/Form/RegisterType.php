@@ -21,21 +21,21 @@ class RegisterType extends AbstractType
         $builder
             ->add('username', TextType::class, [
                 'label' => "votre nom d'utilisateur",
-                'constraints' => new Length(20, 2),
+                'constraints' => new Length(2, 20),
                 'attr' => [
                     'placeholder' => "Merci de saisir votre nom d'utilisateur"
                 ]
             ])
             ->add('email', EmailType::class, [
                 'label' => "votre email",
-                'constraints' => new Length(60, 2),
+                'constraints' => new Length(2, 60),
                 'attr' => [
                     'placeholder' => "Merci de saisir votre email"
                 ]
             ])
             ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
-                'constraints' => new Length(6, 2),
+                'constraints' => new Length(2, 6),
                 'invalid_message' => 'Le mot de passe et la confirmation doivent être identique.',
                 'label' => "votre mot de passe",
                 'required' => true,
