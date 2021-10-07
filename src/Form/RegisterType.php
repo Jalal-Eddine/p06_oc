@@ -11,6 +11,8 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotNull;
 
 class RegisterType extends AbstractType
 {
@@ -19,18 +21,21 @@ class RegisterType extends AbstractType
         $builder
             ->add('username', TextType::class, [
                 'label' => "votre nom d'utilisateur",
+                'constraints' => new Length(20, 2),
                 'attr' => [
                     'placeholder' => "Merci de saisir votre nom d'utilisateur"
                 ]
             ])
             ->add('email', EmailType::class, [
                 'label' => "votre email",
+                'constraints' => new Length(60, 2),
                 'attr' => [
                     'placeholder' => "Merci de saisir votre email"
                 ]
             ])
             ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
+                'constraints' => new Length(6, 2),
                 'invalid_message' => 'Le mot de passe et la confirmation doivent être identique.',
                 'label' => "votre mot de passe",
                 'required' => true,
