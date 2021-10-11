@@ -28,6 +28,7 @@ class ModifyUserType extends AbstractType
             ])
             ->add('old_password', PasswordType::class, [
                 'mapped' => false,
+                'required' => false,
                 'label' => "Mon mot de passe actuel",
                 'attr' => [
                     'placeholder' => "veuillez saisir votre mot de passe actuel"
@@ -42,7 +43,7 @@ class ModifyUserType extends AbstractType
                 ]),
                 'invalid_message' => 'Le mot de passe et la confirmation doivent être identique.',
                 'label' => "votre mot de passe",
-                'required' => true,
+                'required' => false,
                 'first_options' => [
                     'label' => 'Mon nouveau mot de passe',
                     'attr' => [

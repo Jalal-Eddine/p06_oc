@@ -30,20 +30,24 @@ class AccountController extends AbstractController
         // form submition & validation
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            // collect the form data in the variable $user 
+            $user = $form->getData();
             // get old password from the form
             $old_pwd = $form->get('old_password')->getData();
-            if ($encoder->isPasswordValid($user, $old_pwd)) {
-                // collect the form data in the variable $user 
-                $user = $form->getData();
-                // get the new password from the form
-                $new_pwd = $form->get('new_password')->getData();
-                // encode the new password and save it
-                $password = $encoder->encodePassword($user, $new_pwd);
-                $user->setPassword($password);
-                // save the modified data in the database
-                $this->entityManager->persist($user);
-                $this->entityManager->flush();
+            if (isset($old_pwd)) {
+                if ($encoder->isPasswordValid($user, $old_pwd)) {
+                    // get the new password from the form
+                    $new_pwd = $form->get('new_password')->getData();
+                    // encode the new password and save it
+                    if (isset($new_pwd)) {
+                        $password = $encoder->encodePassword($user, $new_pwd);
+                        $user->setPassword($password);
+                    }
+                }
             }
+            // save the modified data in the database
+            $this->entityManager->persist($user);
+            $this->entityManager->flush();
         }
 
         return $this->render('account/index.html.twig', [
