@@ -20,7 +20,7 @@ class InscriptionController extends AbstractController
         $this->entityManager = $entityManager;
     }
     /**
-     * @Route("/inscription", name="inscription")
+     * @Route("/inscription", name="register")
      */
     public function index(Request $request, UserPasswordEncoderInterface $encoder): Response
     {
