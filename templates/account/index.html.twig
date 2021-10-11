@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+  Hello AccountController!
+{% endblock %}
+
+{% block body %}
+  <div class="example-wrapper">
+    <h1>
+      Mon compte
+    </h1>
+    <p>
+      Bienvenue {{ app.user.username }} dans votre compte
+    </p>
+    <p>
+      Merci de remplir vos informations
+    </p>
+    <div class="row align-items-center">
+      <div class="col">
+        <img src="{{ app.user.photo }}" alt="profile image" width="500" />
+      </div>
+      <div class="col">
+        {{ form(form) }}
+      </div>
+    </div>
+  </div>
+{% endblock %}
