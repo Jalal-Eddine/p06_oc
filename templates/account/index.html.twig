@@ -10,13 +10,18 @@
       Mon compte
     </h1>
     <p>
-      Bienvenue {{ app.user.email }} dans votre compte
+      Bienvenue {{ app.user.username }} dans votre compte
     </p>
     <p>
       Merci de remplir vos informations
     </p>
-    <hr />- Ajouter mes informations <br />
-    - Modifier mes informations <br />
-    - Modifier mon mot de passe<hr />
+    <div class="row align-items-center">
+      <div class="col">
+        <img src="{{ app.user.photo }}" alt="profile image" />
+      </div>
+      <div class="col">
+        {{ form(form) }}
+      </div>
+    </div>
   </div>
 {% endblock %}
