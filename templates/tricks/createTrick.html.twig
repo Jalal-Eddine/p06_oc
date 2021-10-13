@@ -15,6 +15,11 @@
     <h1>
       Creation d'une figure
     </h1>
+    {% if errors != null %}
+      <div class="alert alert-danger" role="alert">
+        {{ errors }}
+      </div>
+    {% endif %}
     {{ form(form) }}
   </div>
 {% endblock %}

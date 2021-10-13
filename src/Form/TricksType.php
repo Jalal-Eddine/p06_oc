@@ -33,7 +33,7 @@ class TricksType extends AbstractType
                 ]
             ])
             ->add('submit', SubmitType::class, [
-                'label' => 'Save'
+                'label' => 'Enregistrer'
             ]);
     }
 
