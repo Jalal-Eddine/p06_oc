@@ -1,11 +1,19 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Tricks{% endblock %}
+{% block title %}
+  New Tricks
+{% endblock %}
 
 {% block body %}
-    <h1>Create new Tricks</h1>
+  <h1>
+    Create new Tricks
+  </h1>
+  {% if errors != null %}
+    <div class="alert alert-danger" role="alert">
+      {{ errors }}
+    </div>
+  {% endif %}
+  {{ include('tricks/_form.html.twig') }}
 
-    {{ include('tricks/_form.html.twig') }}
-
-    <a href="{{ path('tricks_index') }}">back to list</a>
+  <a href="{{ path('tricks_index') }}">back to list</a>
 {% endblock %}

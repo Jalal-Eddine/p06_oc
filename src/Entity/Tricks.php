@@ -46,17 +46,17 @@ class Tricks
     private $modification_date;
 
     /**
-     * @ORM\OneToMany(targetEntity=Images::class, mappedBy="trick_id", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Images::class, mappedBy="trick_id", orphanRemoval=true, cascade={"persist"})
      */
     private $images;
 
     /**
-     * @ORM\OneToMany(targetEntity=Videos::class, mappedBy="trick_id", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Videos::class, mappedBy="trick_id", orphanRemoval=true, cascade={"persist"})
      */
     private $videos;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Group::class, inversedBy="tricks")
+     * @ORM\ManyToOne(targetEntity=Group::class, inversedBy="tricks", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $group_id;
