@@ -8,17 +8,29 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class TricksType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name')
+            ->add('name', TextType::class)
             ->add('discription')
             ->add('creation_date')
-            // ->add('modification_date')
-            // ->add('user_id')
+            ->add('images', FileType::class, [
+                'label' => false,
+                'multiple' => true,
+                'mapped' => false,
+                'required' => false
+            ])
+            ->add('video', TextType::class, [
+                'mapped' => false,
+                'required' => false,
+                'attr' => [
+                    'placeholder' => "Merci d'entré un lien de partage vidéo"
+                ]
+            ])
             ->add('group', ChoiceType::class, [
                 'choices' => [
                     'groupe 1' => 1,
@@ -28,12 +40,6 @@ class TricksType extends AbstractType
                 ],
                 'mapped' => false,
                 'label' => 'groupe'
-            ])
-            ->add('images', FileType::class, [
-                'label' => false,
-                'multiple' => true,
-                'mapped' => false,
-                'required' => false
             ]);
     }
 

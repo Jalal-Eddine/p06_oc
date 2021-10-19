@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Group;
 use App\Entity\Images;
 use App\Entity\Tricks;
+use App\Entity\Videos;
 use App\Form\TricksType;
 use App\Repository\TricksRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -42,27 +43,28 @@ class TricksController extends AbstractController
             // cellect the form data
             $trick = $form->getData();
             // store user id
-            // $user_id = $user->getId();
             $trick->setUserId($user);
             // On récupère les images transmises
             $images = $form->get('images')->getData();
-
             // On boucle sur les images
             foreach ($images as $image) {
                 // On génère un nouveau nom de fichier
                 $fichier = md5(uniqid()) . '.' . $image->guessExtension();
-
                 // On copie le fichier dans le dossier uploads
                 $image->move(
                     $this->getParameter('images_directory'),
                     $fichier
                 );
-
                 // On crée l'image dans la base de données
                 $img = new Images();
                 $img->setName($fichier);
                 $trick->addImage($img);
             }
+            // stock video embed link
+            $video_embeded = $form->get('video')->getData();
+            $video = new Videos();
+            $video->setEmbed($video_embeded);
+            $trick->addVideo($video);
             // collect group id 
             $group_id = $form->get('group')->getData();
             // find the group in the database and  add it to the form
@@ -86,7 +88,6 @@ class TricksController extends AbstractController
                 $errors = "Ce nom est déja utilisé";
             }
         }
-
         return $this->renderForm('tricks/new.html.twig', [
             'trick' => $trick,
             'form' => $form,
@@ -113,20 +114,22 @@ class TricksController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // stock video embed link
+            $video_embeded = $form->get('video')->getData();
+            $video = new Videos();
+            $video->setEmbed($video_embeded);
+            $trick->addVideo($video);
             // On récupère les images transmises
             $images = $form->get('images')->getData();
-
             // On boucle sur les images
             foreach ($images as $image) {
                 // On génère un nouveau nom de fichier
                 $fichier = md5(uniqid()) . '.' . $image->guessExtension();
-
                 // On copie le fichier dans le dossier uploads
                 $image->move(
                     $this->getParameter('images_directory'),
                     $fichier
                 );
-
                 // On crée l'image dans la base de données
                 $img = new Images();
                 $img->setName($fichier);
@@ -173,6 +176,26 @@ class TricksController extends AbstractController
             // On supprime l'entrée de la base
             $em = $this->getDoctrine()->getManager();
             $em->remove($image);
+            $em->flush();
+
+            // On répond en json
+            return new JsonResponse(['success' => 1]);
+        } else {
+            return new JsonResponse(['error' => 'Token Invalide'], 400);
+        }
+    }
+    /**
+     * @Route("/supprime/video/{id}", name="tricks_delete_video", methods={"DELETE"})
+     */
+    public function deleteVideo(Videos $video, Request $request)
+    {
+        $data = json_decode($request->getContent(), true);
+
+        // On vérifie si le token est valide
+        if ($this->isCsrfTokenValid('delete' . $video->getId(), $data['_token'])) {
+            // On supprime l'entrée de la base
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($video);
             $em->flush();
 
             // On répond en json
