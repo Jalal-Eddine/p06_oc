@@ -62,9 +62,11 @@ class TricksController extends AbstractController
             }
             // stock video embed link
             $video_embeded = $form->get('video')->getData();
-            $video = new Videos();
-            $video->setEmbed($video_embeded);
-            $trick->addVideo($video);
+            if ($video_embeded) {
+                $video = new Videos();
+                $video->setEmbed($video_embeded);
+                $trick->addVideo($video);
+            }
             // collect group id 
             $group_id = $form->get('group')->getData();
             // find the group in the database and  add it to the form

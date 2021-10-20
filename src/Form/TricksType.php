@@ -15,7 +15,11 @@ class TricksType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name', TextType::class)
+            ->add('name', TextType::class, [
+                'attr' => [
+                    // 'class' => "form-custom"
+                ]
+            ])
             ->add('discription')
             ->add('creation_date')
             ->add('images', FileType::class, [
