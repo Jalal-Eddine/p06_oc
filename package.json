@@ -1,0 +1,32 @@
+{
+  "name": "oc_p06",
+  "version": "1.0.0",
+  "description": "Snow tricks",
+  "main": "index.js",
+  "scripts": {
+    "watch:sass": "node-sass sass/main.scss public/assets/css/style.css -w",
+    "devserver": "live-server --browser=chrome",
+    "start": "npm-run-all --parallel devserver watch:sass",
+    "compile:sass": "node-sass sass/main.scss css/style.comp.css",
+    "prefix:css": "postcss --use autoprefixer -b 'last 10 versions' css/style.comp.css -o css/style.prefix.css",
+    "compress:css": "node-sass css/style.prefix.css public/assets/css/style.css --output-style compressed",
+    "build:css": "npm-run-all compile:sass prefix:css compress:css"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Jalal-Eddine/p06_oc.git"
+  },
+  "author": "JalalEddine",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Jalal-Eddine/OC_symfony_p3/issues"
+  },
+  "homepage": "https://github.com/Jalal-Eddine/OC_symfony_p3#readme",
+  "devDependencies": {
+    "autoprefixer": "^10.0.2",
+    "concat": "^1.0.3",
+    "node-sass": "^5.0.0",
+    "npm-run-all": "^4.1.5",
+    "postcss-cli": "^8.3.0"
+  }
+}

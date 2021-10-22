@@ -16,7 +16,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
- * @Route("/tricks")
+ * @Route("/")
  */
 class TricksController extends AbstractController
 {
@@ -25,6 +25,8 @@ class TricksController extends AbstractController
      */
     public function index(TricksRepository $tricksRepository): Response
     {
+        $tricks = $tricksRepository->findAll();
+        // dd($tricks[0]);
         return $this->render('tricks/index.html.twig', [
             'tricks' => $tricksRepository->findAll(),
         ]);
@@ -62,9 +64,11 @@ class TricksController extends AbstractController
             }
             // stock video embed link
             $video_embeded = $form->get('video')->getData();
-            $video = new Videos();
-            $video->setEmbed($video_embeded);
-            $trick->addVideo($video);
+            if ($video_embeded) {
+                $video = new Videos();
+                $video->setEmbed($video_embeded);
+                $trick->addVideo($video);
+            }
             // collect group id 
             $group_id = $form->get('group')->getData();
             // find the group in the database and  add it to the form
