@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-  Tricks index
+  Accueil: SnowTricks
 {% endblock %}
 {% block header %}
   <div class="header">
@@ -157,7 +157,9 @@
   </section>
   {# table content #}
   {% if app.user %}
-    <a class="btn btn-default" href="{{ path('tricks_new') }}">Create new</a>
+    <a class="btn btn-default" href="{{ path('tricks_new') }}">
+      Créer un figure
+    </a>
   {% endif %}
 {% endblock %}
 {% block javascripts %}
