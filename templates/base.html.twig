@@ -21,16 +21,13 @@
 
       <!-- Theme CSS -->
       <link type="text/css"
-        href="/assets/css/argon-design-system.min.css"
+        href="{{ asset('assets/css/argon-design-system.min.css') }}"
         rel="stylesheet" />
+      <!-- custom css -->
+      <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" />
     {% endblock %}
   </head>
   <body>
-    <style>
-      .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font:
-      18px/1.5 sans-serif; } .example-wrapper code { background: #F5F5F5;
-      padding: 2px 6px; }
-    </style>
     <!-- Navbar primary -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-default">
       <div class="container">
@@ -73,7 +70,7 @@
           <ul class="navbar-nav ml-lg-auto">
             <li class="nav-item"><a class="nav-link" href="/">Accueil</a></li>
             <li class="nav-item">
-              <a class="nav-link" href="/tricks">Tricks</a>
+              <a class="nav-link" href="/#cards">Tricks</a>
             </li>
             {% if app.user %}
               <li class="nav-item">
@@ -118,16 +115,10 @@
           <div class="col-md-6">
             <ul class="nav nav-footer justify-content-end">
               <li class="nav-item">
-                <a href="" class="nav-link" target="_blank">Creative Tim</a>
+                <a href="" class="nav-link" target="_blank">Accueil</a>
               </li>
               <li class="nav-item">
-                <a href="" class="nav-link" target="_blank">About Us</a>
-              </li>
-              <li class="nav-item">
-                <a href="" class="nav-link" target="_blank">Blog</a>
-              </li>
-              <li class="nav-item">
-                <a href="" class="nav-link" target="_blank">License</a>
+                <a href="" class="nav-link" target="_blank">Figures</a>
               </li>
             </ul>
           </div>
@@ -142,6 +133,8 @@
 
       <!-- Theme JS -->
       <script src="/assets/js/argon-design-system.min.js"></script>
+      <!-- Theme JS -->
+      <script src="{{ asset('assets/js/script.js') }}"></script>
     {% endblock %}
   </body>
 </html>

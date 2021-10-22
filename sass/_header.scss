@@ -1,0 +1,21 @@
+body{
+  background-color: #D2DBDD;
+}
+.header {
+  height: 100vh;
+  background: url("https://a-static.besthdwallpaper.com/afficher-de-snowboard-et-les-collines-de-neige-fond-d-ecran-3440x1440-1692_15.jpg");
+  background-size: cover;
+  background-position: top;
+
+  display: flex;
+  flex-direction: column;
+  align-items:center;
+  justify-content: center;
+    .header-h1 {
+      background-color: beige;
+      width: fit-content;
+      height:fit-content;
+      padding: 10px 10px;
+      border-radius: 10px;
+    }
+}

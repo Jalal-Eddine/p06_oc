@@ -16,7 +16,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
- * @Route("/tricks")
+ * @Route("/")
  */
 class TricksController extends AbstractController
 {
@@ -25,6 +25,8 @@ class TricksController extends AbstractController
      */
     public function index(TricksRepository $tricksRepository): Response
     {
+        $tricks = $tricksRepository->findAll();
+        // dd($tricks[0]);
         return $this->render('tricks/index.html.twig', [
             'tricks' => $tricksRepository->findAll(),
         ]);
