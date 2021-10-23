@@ -23,12 +23,15 @@ class TricksController extends AbstractController
     /**
      * @Route("/", name="tricks_index", methods={"GET"})
      */
-    public function index(TricksRepository $tricksRepository): Response
+    public function index(TricksRepository $tricksRepository, int $offset = 0): Response
     {
-        $tricks = $tricksRepository->findAll();
-        // dd($tricks[0]);
+        $limit = 8;
+        $off = $offset * $limit;
+
+        $tricks = $tricksRepository->findBy([], ['creation_date' => 'DESC'], $limit, $off);
+        // dd($tricks, $limit, $off);
         return $this->render('tricks/index.html.twig', [
-            'tricks' => $tricksRepository->findAll(),
+            'tricks' => $tricks,
         ]);
     }
     /**
@@ -104,6 +107,7 @@ class TricksController extends AbstractController
      */
     public function show(Tricks $trick): Response
     {
+        // dd($trick->getUser());
         return $this->render('tricks/show.html.twig', [
             'trick' => $trick,
         ]);
@@ -120,9 +124,11 @@ class TricksController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             // stock video embed link
             $video_embeded = $form->get('video')->getData();
-            $video = new Videos();
-            $video->setEmbed($video_embeded);
-            $trick->addVideo($video);
+            if ($video_embeded) {
+                $video = new Videos();
+                $video->setEmbed($video_embeded);
+                $trick->addVideo($video);
+            }
             // On récupère les images transmises
             $images = $form->get('images')->getData();
             // On boucle sur les images

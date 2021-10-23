@@ -33,7 +33,7 @@ class Tricks
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="tricks")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $user_id;
+    private $user;
 
     /**
      * @ORM\Column(type="datetime", nullable=false)
@@ -59,12 +59,18 @@ class Tricks
      * @ORM\ManyToOne(targetEntity=Group::class, inversedBy="tricks", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
-    private $group_id;
+    private $group;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Comments::class, mappedBy="trick", orphanRemoval=true)
+     */
+    private $comments;
 
     public function __construct()
     {
         $this->images = new ArrayCollection();
         $this->videos = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -96,14 +102,14 @@ class Tricks
         return $this;
     }
 
-    public function getUserId(): ?User
+    public function getUser(): ?User
     {
-        return $this->user_id;
+        return $this->user;
     }
 
-    public function setUserId(?User $user_id): self
+    public function setUserId(?User $user): self
     {
-        $this->user_id = $user_id;
+        $this->user = $user;
 
         return $this;
     }
@@ -192,14 +198,44 @@ class Tricks
         return $this;
     }
 
-    public function getGroupId(): ?Group
+    public function getGroup(): ?Group
     {
-        return $this->group_id;
+        return $this->group;
     }
 
-    public function setGroupId(?Group $group_id): self
+    public function setGroup(?Group $group): self
     {
-        $this->group_id = $group_id;
+        $this->group = $group;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Comments[]
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comments $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->setTrick($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comments $comment): self
+    {
+        if ($this->comments->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getTrick() === $this) {
+                $comment->setTrick(null);
+            }
+        }
 
         return $this;
     }

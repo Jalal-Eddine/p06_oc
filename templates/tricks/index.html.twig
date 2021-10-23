@@ -4,7 +4,8 @@
   Accueil: SnowTricks
 {% endblock %}
 {% block header %}
-  <div class="header">
+  <div class="header"
+    style='background-image:url("{{ asset('assets/images/header.jpg') }}");'>
     <h1 class="header-h1">
       Bienvenue sur SnowTricks
     </h1>
@@ -144,12 +145,12 @@
             }}');"></div>
         </a>
         <div class="card__info">
-          <span class="card__category"></span>
+          <span class="card__category">{{trick.group.name}}</span>
           <h3 class="card__title">
             {{ trick.name }}
           </h3>
           <span class="card__by">
-            <a href="#" class="card__author" title="author"></a>
+            by: <a href="#" class="card__author" title="author">{{trick.user.username}}</a>
           </span>
         </div>
       </article>
