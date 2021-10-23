@@ -26,7 +26,7 @@ class Group
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity=Tricks::class, mappedBy="group_id", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Tricks::class, mappedBy="group", orphanRemoval=true)
      */
     private $tricks;
 
@@ -64,7 +64,7 @@ class Group
     {
         if (!$this->tricks->contains($trick)) {
             $this->tricks[] = $trick;
-            $trick->setGroupId($this);
+            $trick->setGroup($this);
         }
 
         return $this;
@@ -74,11 +74,19 @@ class Group
     {
         if ($this->tricks->removeElement($trick)) {
             // set the owning side to null (unless already changed)
-            if ($trick->getGroupId() === $this) {
-                $trick->setGroupId(null);
+            if ($trick->getGroup() === $this) {
+                $trick->setGroup(null);
             }
         }
 
         return $this;
+    }
+    /**
+     * toString
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getName();
     }
 }
