@@ -21,7 +21,7 @@ class TricksType extends AbstractType
                     'class' => "form-control"
                 ]
             ])
-            ->add('description')
+            ->add('description', TextType::class)
             ->add('images', FileType::class, [
                 'label' => false,
                 'multiple' => true,
