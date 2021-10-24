@@ -20,8 +20,7 @@ class TricksType extends AbstractType
                     // 'class' => "form-custom"
                 ]
             ])
-            ->add('discription')
-            ->add('creation_date')
+            ->add('description')
             ->add('images', FileType::class, [
                 'label' => false,
                 'multiple' => true,
@@ -37,10 +36,14 @@ class TricksType extends AbstractType
             ])
             ->add('group', ChoiceType::class, [
                 'choices' => [
-                    'groupe 1' => 1,
-                    'groupe 2' => 2,
-                    'groupe 3' => 3,
-                    'groupe 4' => 4
+                    'Les grabs' => 1,
+                    'Les rotations' => 2,
+                    'Les flips' => 3,
+                    'Les rotations désaxées' => 4,
+                    'Les slides' => 5,
+                    'Les one foot tricks' => 6,
+                    '	
+                    Old school' => 7
                 ],
                 'mapped' => false,
                 'label' => 'groupe'

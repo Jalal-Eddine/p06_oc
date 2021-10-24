@@ -48,7 +48,7 @@ class TricksController extends AbstractController
             // cellect the form data
             $trick = $form->getData();
             // store user id
-            $trick->setUserId($user);
+            $trick->setUser($user);
             // On récupère les images transmises
             $images = $form->get('images')->getData();
             // On boucle sur les images
@@ -73,14 +73,16 @@ class TricksController extends AbstractController
                 $trick->addVideo($video);
             }
             // collect group id 
-            $group_id = $form->get('group')->getData();
+            $group = $form->get('group')->getData();
             // find the group in the database and  add it to the form
             $entityManager = $this->getDoctrine()->getManager();
             $group = $entityManager->getRepository(Group::class)
                 ->findOneBy([
-                    'id' => $group_id
+                    'id' => $group
                 ]);
-            $trick->setGroupId($group);
+            $trick->setGroup($group);
+            // set creation date
+            $trick->setCreationDate(new \DateTime('NOW'));
             // collect the name to verify the uniqueness of it
             $name = $form->get('name')->getData();
             $nameExist = $entityManager->getRepository(Tricks::class)

@@ -27,7 +27,7 @@ class Tricks
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    private $discription;
+    private $description;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="tricks")
@@ -90,14 +90,14 @@ class Tricks
         return $this;
     }
 
-    public function getDiscription(): ?string
+    public function getDescription(): ?string
     {
-        return $this->discription;
+        return $this->description;
     }
 
-    public function setDiscription(?string $discription): self
+    public function setDescription(?string $description): self
     {
-        $this->discription = $discription;
+        $this->description = $description;
 
         return $this;
     }
@@ -107,7 +107,7 @@ class Tricks
         return $this->user;
     }
 
-    public function setUserId(?User $user): self
+    public function setUser(?User $user): self
     {
         $this->user = $user;
 
