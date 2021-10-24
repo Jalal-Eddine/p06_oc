@@ -1,18 +1,18 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-  New Tricks
+  Créer une figure
 {% endblock %}
 
 {% block body %}
   <h1>
-    Create new Tricks
+    Créer une nouvelle figure
   </h1>
   {% if errors != null %}
     <div class="alert alert-warning alert-dismissible fade show" role="alert">
       <span class="alert-inner--icon"><i class="ni ni-bell-55"></i></span>
       <span class="alert-inner--text">
-        <strong>Warning!</strong>{{ errors }}
+        <strong>Attention!</strong>{{ errors }}
       </span>
       <button type="button"
         class="close"
@@ -24,5 +24,5 @@
   {% endif %}
   {{ include('tricks/_form.html.twig') }}
 
-  <a href="{{ path('tricks_index') }}">back to list</a>
+  <a class="btn btn-default" href="{{ path('tricks_index') }}">Retourner à la liste</a>
 {% endblock %}

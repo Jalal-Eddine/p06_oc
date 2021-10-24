@@ -16,8 +16,9 @@ class TricksType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
+                'label' => 'Nom',
                 'attr' => [
-                    // 'class' => "form-custom"
+                    'class' => "form-control"
                 ]
             ])
             ->add('description')
@@ -46,7 +47,10 @@ class TricksType extends AbstractType
                     Old school' => 7
                 ],
                 'mapped' => false,
-                'label' => 'groupe'
+                'label' => 'groupe',
+                'attr' => [
+                    'class' => "form-control"
+                ]
             ]);
     }
 
