@@ -17,7 +17,13 @@
     </p>
     <div class="row align-items-center">
       <div class="col">
-        <img src="{{ app.user.photo }}" alt="profile image" width="500" />
+        <img src="{{
+          app.user.photo
+            ? app.user.photo
+            : asset('assets/images/profil.png')
+          }}"
+          alt="profile image"
+          width="500" />
       </div>
       <div class="col">
         {{ form(form) }}

@@ -1,25 +1,34 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-  Edit Tricks
+  Modifier une figure
 {% endblock %}
-
+{% block header %}
+  <div class="headerTrick"
+    style="background-image: url('{{
+    asset(
+      '/uploads/' ~ trick.images[0].name
+    )
+    }}');')">
+    <h1 class="header-h1">
+      {{ trick.name }}
+    </h1>
+  </div>
+{% endblock %}
 {% block body %}
-  <h1>
-    Edit Tricks
-  </h1>
-
   {{
     include(
       'tricks/_form.html.twig',
       {
-        button_label: 'Update'
+        button_label: 'Modifier'
       }
     )
   }}
 
-  <a calss="btn btn-primary" href="{{ path('tricks_index') }}">back to list</a>
-  <div class="float-right mt-4">
+  <a class="btn btn-default" href="{{ path('tricks_index') }}">
+    Retourner à la liste
+  </a>
+  <div class="float-right mr-4">
     {{ include('tricks/_delete_form.html.twig') }}
   </div>
 {% endblock %}

@@ -138,18 +138,16 @@
         {{ trick.group }}
       </span>
       <span class="badge badge-pill badge-warning text-uppercase">
-        {{ trick.creationDate ? trick.creationDate|date('Y-m-d H:i:s') : '' }}
+        Crée le : {{ trick.creationDate ? trick.creationDate|date('Y-m-d H:i:s') : '' }}
       </span>
       <span class="badge badge-pill badge-info text-uppercase">
-        {{ trick.modificationDate
-          ? trick.modificationDate|date('Y-m-d H:i:s')
-          : '🏂' }}
+        Modifier le : {{ trick.modificationDate ? trick.modificationDate|date('Y-m-d H:i:s') : '🏂' }}
       </span>
     </div>
   </div>
-  <hr />
-
-  <a class="btn btn-primary" href="{{ path('tricks_index') }}">back to list</a>
+  <a class="btn btn-default" href="{{ path('tricks_index') }}">
+    Retourner à la liste
+  </a>
   {% if app.user %}
     <a class="btn btn-warning float-right"
       href="{{
@@ -160,10 +158,47 @@
         }
       )
       }}">
-      edit
+      Modifier
     </a>
     <div class="float-right mr-4">
       {{ include('tricks/_delete_form.html.twig') }}
     </div>
   {% endif %}
+  {% if app.user %}
+    <hr />
+    <div class="comments">
+      <small class="text-uppercase text-default font-weight-bold">
+        laissez un commentaire
+      </small>
+      {{ form(form) }}
+    </div>
+  {% endif %}
+  <hr />
+  {% for comment in trick.comments %}
+    <div class="row py-3 align-items-center comment-container">
+      <div class="col-sm-3 comment-profile">
+        <img src="{{
+          comment.user.photo
+            ? comment.user.photo
+            : asset('assets/images/profil.png')
+          }}"
+          alt="Raised circle image"
+          class="img-fluid rounded-circle shadow-lg"
+          style="width: 150px;height:130px" />
+        <small class="text-uppercase font-weight-bold">
+          {{ comment.user.firstname
+            ? comment.user.firstname ~ ' ' ~ comment.user.lastname
+            : comment.user.username }}
+        </small>
+      </div>
+      <div class="col-sm-9">
+        <p class="mb-0">
+          {{ comment.content }}
+        </p>
+        <span class="badge badge-pill badge-info text-uppercase">
+          Crée le : {{ comment.createdAt ? comment.createdAt|date('Y-m-d H:i:s') : '' }}
+        </span>
+      </div>
+    </div>
+  {% endfor %}
 {% endblock %}
