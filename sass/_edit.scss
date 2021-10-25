@@ -1,0 +1,21 @@
+.editAssets {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 2rem;
+  & .asset_edit {
+    margin: 1.5rem;
+    & .delete_icon {
+      position: absolute;
+    }
+  }
+}
+
+.comment-container {
+  border: 2px solid white;
+  border-radius: 6px;
+  margin: 3px;
+  background-color: #f4f5f7;
+  & .comment-profile {
+    text-align: center;
+  }
+}

@@ -38,6 +38,7 @@ class InscriptionController extends AbstractController
             // save the data in the database with doctrine
             $this->entityManager->persist($user);
             $this->entityManager->flush();
+            return $this->redirectToRoute('account');
         }
         return $this->render('inscription/index.html.twig', [
             'form' => $form->createView()

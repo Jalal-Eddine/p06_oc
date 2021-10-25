@@ -6,20 +6,29 @@ use App\Entity\Group;
 use App\Entity\Images;
 use App\Entity\Tricks;
 use App\Entity\Videos;
+use App\Entity\Comments;
 use App\Form\TricksType;
+use App\Form\CommentsType;
 use App\Repository\TricksRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * @Route("/")
  */
 class TricksController extends AbstractController
 {
+    private $entityManager;
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
     /**
      * @Route("/", name="tricks_index", methods={"GET"})
      */
@@ -105,13 +114,31 @@ class TricksController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="tricks_show", methods={"GET"})
+     * @Route("/{id}", name="tricks_show", methods={"GET","POST"})
      */
-    public function show(Tricks $trick): Response
+    public function show(Tricks $trick, Request $request, Security $security): Response
     {
-        // dd($trick->getUser());
+        $comment = new Comments();
+        $form = $this->createForm(CommentsType::class, $comment);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid() && !is_null($security->getUser())) {
+            $comment = $form->getData();
+            $comment->setUser($security->getUser());
+            $comment->setTrick($trick);
+            $comment->setCreatedAt(new \DateTime('NOW'));
+            // dd($comment);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($comment);
+            $entityManager->flush();
+            return $this->redirect($request->getUri());
+        }
+        // get comments
+        $limit = 8;
+        // $commentslist = $trick->getComments();
+        // dd($commentslist, $trick->getId());
         return $this->render('tricks/show.html.twig', [
             'trick' => $trick,
+            'form' => $form->createView()
         ]);
     }
 
@@ -133,20 +160,24 @@ class TricksController extends AbstractController
             }
             // On récupère les images transmises
             $images = $form->get('images')->getData();
-            // On boucle sur les images
-            foreach ($images as $image) {
-                // On génère un nouveau nom de fichier
-                $fichier = md5(uniqid()) . '.' . $image->guessExtension();
-                // On copie le fichier dans le dossier uploads
-                $image->move(
-                    $this->getParameter('images_directory'),
-                    $fichier
-                );
-                // On crée l'image dans la base de données
-                $img = new Images();
-                $img->setName($fichier);
-                $trick->addImage($img);
+            if ($images) {
+                // On boucle sur les images
+                foreach ($images as $image) {
+                    // On génère un nouveau nom de fichier
+                    $fichier = md5(uniqid()) . '.' . $image->guessExtension();
+                    // On copie le fichier dans le dossier uploads
+                    $image->move(
+                        $this->getParameter('images_directory'),
+                        $fichier
+                    );
+                    // On crée l'image dans la base de données
+                    $img = new Images();
+                    $img->setName($fichier);
+                    $trick->addImage($img);
+                }
             }
+            // set modification date
+            $trick->setModificationDate(new \DateTime('NOW'));
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('tricks_index', [], Response::HTTP_SEE_OTHER);

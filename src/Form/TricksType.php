@@ -9,6 +9,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class TricksType extends AbstractType
 {
@@ -21,7 +22,7 @@ class TricksType extends AbstractType
                     'class' => "form-control"
                 ]
             ])
-            ->add('description', TextType::class)
+            ->add('description',TextareaType::class)
             ->add('images', FileType::class, [
                 'label' => false,
                 'multiple' => true,
