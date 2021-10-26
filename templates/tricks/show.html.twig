@@ -140,9 +140,11 @@
       <span class="badge badge-pill badge-warning text-uppercase">
         Crée le : {{ trick.creationDate ? trick.creationDate|date('Y-m-d H:i:s') : '' }}
       </span>
-      <span class="badge badge-pill badge-info text-uppercase">
-        Modifier le : {{ trick.modificationDate ? trick.modificationDate|date('Y-m-d H:i:s') : '🏂' }}
-      </span>
+      {% if trick.modificationDate %}
+        <span class="badge badge-pill badge-info text-uppercase">
+          Modifier le : {{ trick.modificationDate|date('Y-m-d H:i:s') }}
+        </span>
+      {% endif %}
     </div>
   </div>
   <a class="btn btn-default" href="{{ path('tricks_index') }}">
@@ -171,6 +173,26 @@
         laissez un commentaire
       </small>
       {{ form(form) }}
+    </div>
+  {% endif %}
+  {% if not app.user %}
+    <hr />
+    <div class="regiter_to_comment">
+      <h3 class="heading-title text-primary text-center mb-4">
+        Connectez-vous ou inscrivez-vous pour laisser un commentaire
+      </h3>
+      <div class="action_button text-center">
+        <a href="{{ path('app_login') }}"
+          class="btn btn-lg btn-primary"
+          type="a">
+          Connectez-vous
+        </a>
+        <a href="{{ path('register') }}"
+          class="btn btn-lg btn-primary"
+          type="button">
+          S'inscrire
+        </a>
+      </div>
     </div>
   {% endif %}
   <hr />
