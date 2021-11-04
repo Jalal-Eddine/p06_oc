@@ -12,15 +12,16 @@ use App\Form\CommentsType;
 use App\Repository\TricksRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Security\Core\Security;
 
 /**
- * @Route("/")
+ * @Route("/figures")
  */
 class TricksController extends AbstractController
 {
@@ -29,20 +30,29 @@ class TricksController extends AbstractController
     {
         $this->entityManager = $entityManager;
     }
-    /**
-     * @Route("/", name="tricks_index", methods={"GET"})
-     */
-    public function index(TricksRepository $tricksRepository, int $offset = 0): Response
-    {
-        $limit = 8;
-        $off = $offset * $limit;
 
+    /** 
+     * @Route("/loadmore/{loadtimes}", name="load_more", requirements={"loadtimes"="\d+"}, methods={"POST","GET"})
+     * 
+     */
+    public function loadMore($loadtimes, TricksRepository $tricksRepository, CsrfTokenManagerInterface $tokenManager, Security $security): Response
+    {
+        if ($security->getUser()) {
+            $isConnected = true;
+        } else {
+            $isConnected = false;
+        }
+        $limit = 3;
+        $off = $limit * $loadtimes;
         $tricks = $tricksRepository->findBy([], ['creation_date' => 'DESC'], $limit, $off);
-        // dd($tricks, $limit, $off);
-        return $this->render('tricks/index.html.twig', [
-            'tricks' => $tricks,
-        ]);
+        foreach ($tricks as $trick) {
+            $token = $tokenManager->getToken('delete' . $trick->getId());
+            $listTricks = ['id' => $trick->getId(), 'name' => $trick->getName(), 'group' => $trick->getGroup()->getName(), 'author' => $trick->getUser()->getUsername(), 'image' => $trick->getImages()[0]->getName(), 'isConnected' => $isConnected, 'token' => $token];
+            $tricks2[] = $listTricks;
+        }
+        return $this->json($tricks2, 200);
     }
+
     /**
      * @Route("/new", name="tricks_new", methods={"GET","POST"})
      */
@@ -126,7 +136,6 @@ class TricksController extends AbstractController
             $comment->setUser($security->getUser());
             $comment->setTrick($trick);
             $comment->setCreatedAt(new \DateTime('NOW'));
-            // dd($comment);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($comment);
             $entityManager->flush();
@@ -143,7 +152,7 @@ class TricksController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="tricks_edit", methods={"GET","POST"})
+     * @Route("/modifier/{id}", name="tricks_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Tricks $trick): Response
     {
@@ -227,6 +236,7 @@ class TricksController extends AbstractController
             return new JsonResponse(['error' => 'Token Invalide'], 400);
         }
     }
+
     /**
      * @Route("/supprime/video/{id}", name="tricks_delete_video", methods={"DELETE"})
      */

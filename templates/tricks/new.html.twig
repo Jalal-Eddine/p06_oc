@@ -22,7 +22,10 @@
       </button>
     </div>
   {% endif %}
-  {{ include('tricks/_form.html.twig') }}
-
-  <a class="btn btn-default" href="{{ path('tricks_index') }}">Retourner à la liste</a>
+  <div class="container">
+    {{ include('tricks/_form.html.twig') }}
+    <a class="btn btn-default" href="{{ path('tricks_index') }}">
+      Retourner à la liste
+    </a>
+  </div>
 {% endblock %}

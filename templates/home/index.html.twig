@@ -162,7 +162,11 @@
       Créer un figure
     </a>
   {% endif %}
+  <div class="text-center">
+  <a class="btn btn-default" href="" data-loadmore data-loadtimes="1" data-tricksnb="{{tricksNb}}">Load more</a>
+  </div>
 {% endblock %}
 {% block javascripts %}
-  <script src="{{ asset('assets/js/deleteTrick.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="{{ asset('assets/js/loadMore.js') }}"></script>
 {% endblock %}

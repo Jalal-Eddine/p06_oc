@@ -38,5 +38,5 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/compte, roles: ROLE_USER }
-        - { path: ^/figures, roles: ROLE_USER }
+        - { path: ^/figures/edit, roles: ROLE_USER }
         - { path: ^/tricks, roles: ROLE_USER }
