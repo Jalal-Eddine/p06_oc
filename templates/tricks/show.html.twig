@@ -194,31 +194,51 @@
     </div>
   {% endif %}
   <hr />
-  {% for comment in trick.comments %}
-    <div class="row py-3 align-items-center comment-container">
-      <div class="col-sm-3 comment-profile">
-        <img src="{{
-          comment.user.photo
-            ? comment.user.photo
-            : asset('assets/images/profil.png')
-          }}"
-          alt="Raised circle image"
-          class="img-fluid rounded-circle shadow-lg"
-          style="width: 150px;height:130px" />
-        <small class="text-uppercase font-weight-bold">
-          {{ comment.user.firstname
-            ? comment.user.firstname ~ ' ' ~ comment.user.lastname
-            : comment.user.username }}
-        </small>
+  <div class="comments">
+    {# begin comments loop #}
+    {% for comment in comments %}
+      <div class="row py-3 align-items-center comment-container">
+        <div class="col-sm-3 comment-profile">
+          <img src="{{
+            comment.user.photo
+              ? comment.user.photo
+              : asset('assets/images/profil.png')
+            }}"
+            alt="Raised circle image"
+            class="img-fluid rounded-circle shadow-lg"
+            style="width: 150px;height:130px" />
+          <small class="text-uppercase font-weight-bold">
+            {{ comment.user.firstname
+              ? comment.user.firstname ~ ' ' ~ comment.user.lastname
+              : comment.user.username }}
+          </small>
+        </div>
+        <div class="col-sm-9">
+          <p class="mb-0">
+            {{ comment.content }}
+          </p>
+          <span class="badge badge-pill badge-info text-uppercase">
+            Crée le : {{ comment.createdAt ? comment.createdAt|date('Y-m-d H:i:s') : '' }}
+          </span>
+        </div>
       </div>
-      <div class="col-sm-9">
-        <p class="mb-0">
-          {{ comment.content }}
-        </p>
-        <span class="badge badge-pill badge-info text-uppercase">
-          Crée le : {{ comment.createdAt ? comment.createdAt|date('Y-m-d H:i:s') : '' }}
-        </span>
-      </div>
+    {% endfor %}
+  </div>
+  {# end comments loops #}
+  {% if commentsNb > 3 %}
+    <div class="text-center mt-3">
+      <a class="btn btn-default"
+        href=""
+        data-loadmore
+        data-loadtimes="1"
+        data-trickid="{{ trick.id }}"
+        data-commentsnb="{{ commentsNb }}">
+        afficher plus
+      </a>
     </div>
-  {% endfor %}
+  {% endif %}
+{% endblock %}
+{% block javascripts %}
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="{{ asset('assets/js/loadComments.js') }}"></script>
 {% endblock %}

@@ -9,8 +9,10 @@ use App\Entity\Videos;
 use App\Entity\Comments;
 use App\Form\TricksType;
 use App\Form\CommentsType;
+use App\Repository\CommentsRepository;
 use App\Repository\TricksRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Egulias\EmailValidator\Parser\Comment;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\Response;
@@ -32,8 +34,7 @@ class TricksController extends AbstractController
     }
 
     /** 
-     * @Route("/loadmore/{loadtimes}", name="load_more", requirements={"loadtimes"="\d+"}, methods={"POST","GET"})
-     * 
+     * @Route("/loadmore/{loadtimes}", name="load_more", requirements={"loadtimes"="\d+"}, methods={"POST","GET"}) 
      */
     public function loadMore($loadtimes, TricksRepository $tricksRepository, CsrfTokenManagerInterface $tokenManager, Security $security): Response
     {
@@ -126,7 +127,7 @@ class TricksController extends AbstractController
     /**
      * @Route("/{id}", name="tricks_show", methods={"GET","POST"})
      */
-    public function show(Tricks $trick, Request $request, Security $security): Response
+    public function show(Tricks $trick, Request $request, Security $security, CommentsRepository $commentsRepository, $id): Response
     {
         $comment = new Comments();
         $form = $this->createForm(CommentsType::class, $comment);
@@ -141,14 +142,34 @@ class TricksController extends AbstractController
             $entityManager->flush();
             return $this->redirect($request->getUri());
         }
-        // get comments
-        $limit = 8;
-        // $commentslist = $trick->getComments();
-        // dd($commentslist, $trick->getId());
+        $limit = 3;
+        $comments = $commentsRepository->findBy(['trick' => $trick], ['createdAt' => 'DESC'], $limit, null);
+        $commentsNb = $trick->getComments()->count([]);
         return $this->render('tricks/show.html.twig', [
             'trick' => $trick,
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'comments' => $comments,
+            'commentsNb' => $commentsNb
         ]);
+    }
+    /** 
+     * @Route("/loadcomments/{loadtimes}", name="load_comments", requirements={"loadtimes"="\d+"}, methods={"POST","GET"})
+     * 
+     */
+    public function loadComments($loadtimes, CommentsRepository $commentsRepository,  Request $request): Response
+    {
+        // $trick = $request->get('trickid');=> method get
+        // with method Post
+        $trick = (int) $request->query->get('trickid');
+        // dd($trick);
+        $limit = 3;
+        $off = $limit * $loadtimes;
+        $comments = $commentsRepository->findBy(['trick' => $trick], ['createdAt' => 'DESC'], $limit, $off);
+        foreach ($comments as $comment) {
+            $commentInfo = ['firstname' => $comment->getUser()->getFirstname(), 'lastname' => $comment->getUser()->getLastname(), 'username' => $comment->getUser()->getUsername(), 'content' => $comment->getContent(), 'createdAt' => $comment->getCreatedAt('Y-m-d H:i:s'), 'photo' => $comment->getUser()->getPhoto()];
+            $commentsList[] = $commentInfo;
+        }
+        return $this->json($commentsList, 200);
     }
 
     /**

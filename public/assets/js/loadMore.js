@@ -6,22 +6,20 @@ window.onload = () => {
   loadmoreButton.href = `/figures/loadmore/${loadtimes}`;
   const loadMore = (event) => {
     event.preventDefault();
-    if (confirm("do you want to load more?")) {
-      const url = event.target.href;
-      axios.get(url).then(function (response) {
-        const tricks = response.data;
-        loadmoreButton.setAttribute("data-loadtimes", loadtimes);
-        tricks.forEach((data) => {
-          cards.insertAdjacentHTML("beforeend", insertTrick(data));
-        });
-        loadtimes++;
-        if (tricksNb <= 3 * loadtimes) {
-          loadmoreButton.remove();
-        } else {
-          loadmoreButton.href = `/figures/loadmore/${loadtimes}`;
-        }
+    const url = event.target.href;
+    axios.get(url).then(function (response) {
+      const tricks = response.data;
+      loadmoreButton.setAttribute("data-loadtimes", loadtimes);
+      tricks.forEach((data) => {
+        cards.insertAdjacentHTML("beforeend", insertTrick(data));
       });
-    }
+      loadtimes++;
+      if (tricksNb <= 3 * loadtimes) {
+        loadmoreButton.remove();
+      } else {
+        loadmoreButton.href = `/figures/loadmore/${loadtimes}`;
+      }
+    });
   };
   loadmoreButton.addEventListener("click", loadMore);
 };
