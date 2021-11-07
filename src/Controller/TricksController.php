@@ -48,7 +48,7 @@ class TricksController extends AbstractController
         $tricks = $tricksRepository->findBy([], ['creation_date' => 'DESC'], $limit, $off);
         foreach ($tricks as $trick) {
             $token = $tokenManager->getToken('delete' . $trick->getId());
-            $listTricks = ['id' => $trick->getId(), 'name' => $trick->getName(), 'group' => $trick->getGroup()->getName(), 'author' => $trick->getUser()->getUsername(), 'image' => $trick->getImages()[0]->getName(), 'isConnected' => $isConnected, 'token' => $token];
+            $listTricks = ['id' => $trick->getId(), 'slug' => $trick->getSlug(), 'name' => $trick->getName(), 'group' => $trick->getGroup()->getName(), 'author' => $trick->getUser()->getUsername(), 'image' => $trick->getImages()[0]->getName(), 'isConnected' => $isConnected, 'token' => $token];
             $tricks2[] = $listTricks;
         }
         return $this->json($tricks2, 200);
@@ -101,6 +101,7 @@ class TricksController extends AbstractController
                     'id' => $group
                 ]);
             $trick->setGroup($group);
+            $trick->setSlug($trick->getName());
             // set creation date
             $trick->setCreationDate(new \DateTime('NOW'));
             // collect the name to verify the uniqueness of it
@@ -125,9 +126,9 @@ class TricksController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="tricks_show", methods={"GET","POST"})
+     * @Route("/{slug}", name="tricks_show", methods={"GET","POST"})
      */
-    public function show(Tricks $trick, Request $request, Security $security, CommentsRepository $commentsRepository, $id): Response
+    public function show(Tricks $trick, Request $request, Security $security, CommentsRepository $commentsRepository, $slug): Response
     {
         $comment = new Comments();
         $form = $this->createForm(CommentsType::class, $comment);

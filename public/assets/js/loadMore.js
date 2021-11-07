@@ -27,10 +27,7 @@ window.onload = () => {
 const insertTrick = (data) => {
   const hoverInfo = `<div class="card__info-hover">
   <form method="post"
-    action="
-    path(
-      'tricks_delete'${data.id}
-    )"
+    action="/figures/${data.id}"
     onsubmit="return confirm('Are you sure you want to delete this item?');">
     <input type="hidden"
       name="_token"
@@ -123,7 +120,7 @@ const insertTrick = (data) => {
       ${data.isConnected ? hoverInfo : ""}
     <div class="card__img"
       style="background-image: url('/uploads/${data.image}');"></div>
-    <a href="/figures/${data.id}"
+    <a href="/figures/${data.slug}"
       class="card_link">
       <div class="card__img--hover"
         style="background-image: url('/uploads/${data.image}');"></div>
