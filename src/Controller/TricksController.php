@@ -113,7 +113,7 @@ class TricksController extends AbstractController
             if (!$nameExist) {
                 $entityManager->persist($trick);
                 $entityManager->flush();
-                return $this->redirectToRoute('tricks_index', [], Response::HTTP_SEE_OTHER);
+                return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
             } else {
                 $errors = "Ce nom est déja utilisé";
             }
