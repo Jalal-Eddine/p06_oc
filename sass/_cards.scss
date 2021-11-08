@@ -5,6 +5,13 @@
   justify-content: space-around;
   max-width: 1200px;
   flex-wrap: wrap;
+  .arrow-up-link {
+    position: fixed;
+    right: 19px;
+    font-size: 41px;
+    bottom: 112px;
+    color: black;
+  }
 }
 
 .card__like {

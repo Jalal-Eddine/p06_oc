@@ -73,7 +73,7 @@ const insertTrick = (data) => {
     </button>
   </form>
   <div class="card__clock-info">
-    <a href="/modifier/${data.id}">
+    <a href="/figures/modifier/${data.id}">
       <svg id="Layer_1"
         class="card__clock"
         data-name="Layer 1"

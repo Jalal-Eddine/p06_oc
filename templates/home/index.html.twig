@@ -25,10 +25,12 @@
     <h1 class="header-h1">
       Bienvenue sur SnowTricks
     </h1>
+    <a class="arrow-down-link" href="#cards"><i class="fa fa-arrow-down" aria-hidden="true"></i></a>
   </div>
 {% endblock %}
 {% block body %}
   <section id="cards" class="cards">
+  <a class="arrow-up-link" href="#cards"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
     {% for trick in tricks %}
       <article class="card card--2">
         <div class="card__info-hover">
