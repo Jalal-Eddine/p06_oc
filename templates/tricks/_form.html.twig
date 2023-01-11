@@ -55,12 +55,10 @@
       </a>
     </div>
   {% endfor %}
-  {% for video in trick.videos %}
+  {% for key,video in trick.videos %}
     <div class="asset_edit">
-      <embed type="video/webm"
-        src="{{ video.embed }}"
-        width="200"
-        height="" />
+    {% if videos[key] is not null %}
+    {{ videos[key]|raw}}
       <a class="delete_icon" href="{{
         path(
           'tricks_delete_video',
@@ -109,6 +107,7 @@
                     fill="url(#linear-gradient-2)" />
                 </svg>
       </a>
+      {% endif %}
     </div>
   {% endfor %}
 {% endif %}

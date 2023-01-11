@@ -15,7 +15,7 @@
         rel="stylesheet" />
 
       <!-- Icons -->
-      <link href="{{ asset('/assets/css/nucleo-icons.css') }}"
+      <link href="{{ asset('assets/css/nucleo-icons.css') }}"
         rel="stylesheet" />
       <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css"
         rel="stylesheet" />
@@ -127,14 +127,22 @@
         </div>
       </div>
     </footer>
-    {% block javascripts %}
+    {% block javascript %}
       <!-- Core -->
-      <script src="/assets/js/core/jquery.min.js"></script>
-      <script src="/assets/js/core/popper.min.js"></script>
-      <script src="/assets/js/core/bootstrap.min.js"></script>
-
+      <script src="{{ asset('assets/js/core/jquery.min.js') }}"></script>
+      <script src="{{ asset('assets/js/core/popper.min.js') }}"></script>
+      <script src="{{ asset('assets/js/core/bootstrap.min.js') }}"></script>
       <!-- Theme JS -->
-      <script src="/assets/js/argon-design-system.min.js"></script>
+      <script src="{{
+        asset(
+          'assets/js/argon-design-system.js.map'
+        )
+        }}"></script>
+      <script src="{{
+        asset(
+          'assets/js/argon-design-system.min.js'
+        )
+        }}"></script>
     {% endblock %}
   </body>
 </html>

@@ -137,6 +137,20 @@ class TricksController extends AbstractController
         $comment = new Comments();
         $form = $this->createForm(CommentsType::class, $comment);
         $form->handleRequest($request);
+
+        $videos = [];
+
+        foreach ($trick->getVideos() as $video) {
+
+            if (preg_match("/^(?:http(?:s)?:\/\/)?(?:www\.)?(?:m\.)?(?:youtu\.be\/|youtube\.com\/(?:(?:watch)?\?(?:.*&)?v(?:i)?=|(?:embed|v|vi|user)\/))([^\?&\"'>]+)/", $video->getEmbed(), $matches)) {
+
+                $videos[] = '<iframe title="video figure" height="315" width="100%" class="embed-responsive-item" src="https://www.youtube.com/embed/' . $matches[1] . '?rel=0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+            } elseif (preg_match("/^(?:http(?:s)?:\/\/)?(?:www\.)?(?:m\.)?(?:dai\.ly\/|dailymotion\.com\/(?:(?:embed)\/))([^\?&\"'>]+)/", $video->getEmbed(), $matches)) {
+
+                $videos[] = '<iframe title="video figure" class="embed-responsive-item" src="https://www.dailymotion.com/embed/' . $matches[1] . '" allowfullscreen></iframe>';
+            }
+        }
+        // dd($videos);
         if ($form->isSubmitted() && $form->isValid() && !is_null($security->getUser())) {
             $comment = $form->getData();
             $comment->setUser($security->getUser());
@@ -152,6 +166,7 @@ class TricksController extends AbstractController
         $commentsNb = $trick->getComments()->count([]);
         return $this->render('tricks/show.html.twig', [
             'trick' => $trick,
+            'videos' => $videos,
             'form' => $form->createView(),
             'comments' => $comments,
             'commentsNb' => $commentsNb
@@ -184,6 +199,18 @@ class TricksController extends AbstractController
     {
         $form = $this->createForm(TricksType::class, $trick);
         $form->handleRequest($request);
+        $videos = [];
+
+        foreach ($trick->getVideos() as $video) {
+
+            if (preg_match("/^(?:http(?:s)?:\/\/)?(?:www\.)?(?:m\.)?(?:youtu\.be\/|youtube\.com\/(?:(?:watch)?\?(?:.*&)?v(?:i)?=|(?:embed|v|vi|user)\/))([^\?&\"'>]+)/", $video->getEmbed(), $matches)) {
+
+                $videos[] = '<iframe title="video figure" height="" width="200" class="embed-responsive-item" src="https://www.youtube.com/embed/' . $matches[1] . '?rel=0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+            } elseif (preg_match("/^(?:http(?:s)?:\/\/)?(?:www\.)?(?:m\.)?(?:dai\.ly\/|dailymotion\.com\/(?:(?:embed)\/))([^\?&\"'>]+)/", $video->getEmbed(), $matches)) {
+
+                $videos[] = '<iframe title="video figure" class="embed-responsive-item" src="https://www.dailymotion.com/embed/' . $matches[1] . '" allowfullscreen></iframe>';
+            }
+        }
 
         if ($form->isSubmitted() && $form->isValid()) {
             // stock video embed link
@@ -215,12 +242,13 @@ class TricksController extends AbstractController
             $trick->setModificationDate(new \DateTime('NOW'));
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('tricks_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
         }
-
+        // dd($trick->getVideos()[0]->getEmbed());
         return $this->renderForm('tricks/edit.html.twig', [
             'trick' => $trick,
             'form' => $form,
+            'videos' => $videos
         ]);
     }
 
