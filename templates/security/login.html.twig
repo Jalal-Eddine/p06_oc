@@ -37,7 +37,11 @@
       autocomplete="current-password"
       placeholder="Votre mot de passe"
       required />
-
+    <div class="col-6">
+      <a href="{{ path('app_forgot_password_request') }}">
+        <small>Forgot password?</small>
+      </a>
+    </div>
     <input type="hidden"
       name="_csrf_token"
       value="{{ csrf_token('authenticate') }}" /><br />
