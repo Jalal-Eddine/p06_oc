@@ -22,9 +22,13 @@ class TricksType extends AbstractType
                     'class' => "form-control"
                 ]
             ])
-            ->add('description',TextareaType::class)
+            ->add('description', TextareaType::class, [
+                'attr' => [
+                    'rows' => 8
+                ]
+            ])
             ->add('images', FileType::class, [
-                'label' => false,
+                'label' => 'Choisissez les images',
                 'multiple' => true,
                 'mapped' => false,
                 'required' => false
@@ -44,8 +48,7 @@ class TricksType extends AbstractType
                     'Les rotations désaxées' => 4,
                     'Les slides' => 5,
                     'Les one foot tricks' => 6,
-                    '	
-                    Old school' => 7
+                    'Old school' => 7
                 ],
                 'mapped' => false,
                 'label' => 'groupe',

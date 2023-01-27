@@ -22,7 +22,4 @@ composer install
 ```
 ### Installing the database:
 Use the file in the `tricks.sql`
-```
-username: admin
-Password: admin
-```
+
