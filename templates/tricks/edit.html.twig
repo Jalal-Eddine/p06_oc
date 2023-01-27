@@ -26,10 +26,11 @@
         }
       )
     }}
-
-    <a class="btn btn-default" href="{{ path('home') }}">
-      Retourner à la liste
-    </a>
+    <div class="text-center mb-3">
+      <a class="btn btn-default" href="{{ path('home') }}">
+        Retourner à la liste
+      </a>
+    </div>
     <div class="float-right mr-4">
       {{ include('tricks/_delete_form.html.twig') }}
     </div>

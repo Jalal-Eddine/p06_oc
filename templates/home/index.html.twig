@@ -23,8 +23,9 @@
   <div class="header"
     style='background-image:url("{{ asset('assets/images/header.jpg') }}");'>
     <h1 class="header-h1">
-      Bienvenue sur SnowTricks
+      Bienvenue sur SnowTricks ff
     </h1>
+    <a class="arrow-down-link" href="#cards"><i class="fa fa-arrow-down" aria-hidden="true"></i></a>
   </div>
 {% endblock %}
 {% block body %}
@@ -173,16 +174,33 @@
     {% endfor %}
   </section>
   {# table content #}
-  {% if app.user %}
-    <a class="btn btn-default" href="{{ path('tricks_new') }}">
-      Créer un figure
-    </a>
-  {% endif %}
-  <div class="text-center">
+  <div class="text-center ">
   <a class="btn btn-default" href="" data-loadmore data-loadtimes="1" data-tricksnb="{{tricksNb}}">Afficher plus</a>
   </div>
+  {% if app.user %}
+  <div class="text-center mt-3">
+    <a class="btn btn-primary" href="{{ path('tricks_new') }}">
+      Créer un figure
+    </a>
+    </div>
+  {% endif %}
 {% endblock %}
 {% block javascript %}
+      <!-- Core -->
+      <script src="{{ asset('assets/js/core/jquery.min.js') }}"></script>
+      <script src="{{ asset('assets/js/core/popper.min.js') }}"></script>
+      <script src="{{ asset('assets/js/core/bootstrap.min.js') }}"></script>
+      <!-- Theme JS -->
+      <script src="{{
+        asset(
+          'assets/js/argon-design-system.js.map'
+        )
+        }}"></script>
+      <script src="{{
+        asset(
+          'assets/js/argon-design-system.min.js'
+        )
+        }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="{{ asset('assets/js/script.js') }}"></script>
   <script src="{{ asset('assets/js/loadMore.js') }}"></script>
