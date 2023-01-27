@@ -3,6 +3,7 @@ console.log(alertNotice);
 if (alertNotice) {
   setTimeout(() => alertNotice.remove(), 2000);
 }
+console.log("good morning");
 // ===== Scroll to Top ====
 $(window).scroll(function () {
   if ($(this).scrollTop() >= 50) {

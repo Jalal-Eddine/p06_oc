@@ -1,35 +1,41 @@
 {% extends 'base.html.twig' %}
-
 {% block title %}
   Modifier une figure
 {% endblock %}
 {% block header %}
-  <div class="headerTrick"
-    style="background-image: url('{{
-    asset(
-      '/uploads/' ~ trick.images[0].name
-    )
-    }}');')">
-    <h1 class="header-h1">
-      {{ trick.name }}
-    </h1>
-  </div>
+  {% if app.user %}
+    <div class="headerTrick"
+      style="background-image: url('{{
+      asset(
+        '/uploads/' ~ trick.images[0].name
+      )
+      }}');')">
+      <h1 class="header-h1">
+        {{ trick.name }}
+      </h1>
+    </div>
+  {% endif %}
 {% endblock %}
 {% block body %}
-  {{
-    include(
-      'tricks/_form.html.twig',
-      {
-        button_label: 'Modifier'
-      }
-    )
-  }}
+  {% if app.user %}
+    {{
+      include(
+        'tricks/_form.html.twig',
+        {
+          button_label: 'Modifier'
+        }
+      )
+    }}
 
-  <a class="btn btn-default" href="{{ path('home') }}">Retourner à la liste</a>
-  <div class="float-right mr-4">
-    {{ include('tricks/_delete_form.html.twig') }}
-  </div>
+    <a class="btn btn-default" href="{{ path('home') }}">
+      Retourner à la liste
+    </a>
+    <div class="float-right mr-4">
+      {{ include('tricks/_delete_form.html.twig') }}
+    </div>
+  {% endif %}
 {% endblock %}
+
 {% block javascript %}
   <script src="{{ asset('assets/js/images.js') }}"></script>
 {% endblock %}
