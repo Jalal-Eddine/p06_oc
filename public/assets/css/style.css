@@ -188,3 +188,20 @@ body {
 
 .regiter_to_comment {
   text-align: center; }
+
+  /* =========== Responsiveness =========*/
+
+@media only screen and (max-width: 600px) {
+  #medias {
+    display: none;
+  }
+  .actionBtn{
+    display: flex;
+    flex-wrap: wrap;
+  }
+}
+@media only screen and (min-width: 600px) {
+  #toggleButton {
+    display: none;
+  }
+}

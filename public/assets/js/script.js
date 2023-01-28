@@ -22,3 +22,12 @@ $("#return-to-top").click(function () {
     500
   );
 });
+// ===== Toggle Medias ====
+function toggleMedias() {
+  var x = document.getElementById("medias");
+  if (x.style.display === "block") {
+    x.style.display = "none";
+  } else {
+    x.style.display = "block";
+  }
+}
