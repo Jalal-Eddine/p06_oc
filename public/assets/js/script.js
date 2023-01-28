@@ -3,6 +3,7 @@ console.log(alertNotice);
 if (alertNotice) {
   setTimeout(() => alertNotice.remove(), 2000);
 }
+console.log("good morning");
 // ===== Scroll to Top ====
 $(window).scroll(function () {
   if ($(this).scrollTop() >= 50) {
@@ -21,3 +22,12 @@ $("#return-to-top").click(function () {
     500
   );
 });
+// ===== Toggle Medias ====
+function toggleMedias() {
+  var x = document.getElementById("medias");
+  if (x.style.display === "block") {
+    x.style.display = "none";
+  } else {
+    x.style.display = "block";
+  }
+}

@@ -31,7 +31,7 @@ class TricksType extends AbstractType
                 'label' => 'Choisissez les images',
                 'multiple' => true,
                 'mapped' => false,
-                'required' => false
+                'required' => true
             ])
             ->add('video', TextType::class, [
                 'mapped' => false,

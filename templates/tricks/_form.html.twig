@@ -1,6 +1,6 @@
 {# verify if the route is tricks_edit show the images #}
 {% if app.request.attributes.get('_route') == 'tricks_edit' %}
-<div class="editAssets">
+<div id="medias" class="editAssets">
   {% for image in trick.images %}
     <div class="asset_edit">
       <img src="{{ asset('/uploads/' ~ image.name) }}" alt="" width="200" height=""  />
